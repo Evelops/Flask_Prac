@@ -62,10 +62,10 @@ app = Flask(__name__)
 #     return str(a)
 
 def db_connector():
-    db=pymysql.connect(host='wte-rds-server.c16ihe3nmzly.ap-northeast-2.rds.amazonaws.com',
-                      user='wte_rds',
-                      password='djaEhd0426',
-                      db='ETY_DB',
+    db=pymysql.connect(host='XXX.XXX.XXX.XX',
+                      user='XXX',
+                      password='XXXX',
+                      db='XXXXX',
                       charset='utf8')
     cursor = db.cursor()
     sql='''SELECT * FROM korean_food;'''
