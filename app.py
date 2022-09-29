@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import linear_kernel
 app = Flask(__name__)
 
 def db_connector():
-    db=pymysql.connect(host='XXXX',
+    db=pymysql.connect(host='XXX',
                       user='XXXX',
                       password='XXXX',
                       db='XXXX',
@@ -86,6 +86,7 @@ def ML():
 
         result_df = newDfInit.iloc[food_idx].copy()
         result_df['score'] =np.round([i[1] for i in sims_cosine], 2) * 100
+        # result_df['score'] = result_df['score'].astype(str) + '%'
 
         # 결과값에서 특징 속성 제거.
         del result_df['feature']
@@ -118,12 +119,16 @@ def ML():
         res = pd.concat([food_chk(getFoodList[0]),food_chk(getFoodList[1]),food_chk(getFoodList[2]),food_chk(getFoodList[3]),food_chk(getFoodList[4])], ignore_index=True)
 
     print(res)
+
+    res = res.drop_duplicates(['name']) # 이름 컬럼을 기준으로 중복 값 제거.
     # res.sort_values('score',ascending=False)
     resVal = json.dumps(res.to_dict('records'), ensure_ascii=False,indent=4)
 
     print(json.dumps(res.sort_values('score',ascending=False).to_dict('records'), ensure_ascii=False, indent=4))
 
-    return resVal
+    setVal = json.dumps(res.sort_values('score',ascending=False).to_dict('records'), ensure_ascii=False, indent=4)
+
+    return setVal
 
 
 # # 최종적으로 결과값을 리턴하는 값.
